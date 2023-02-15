@@ -2,46 +2,76 @@
 # vim:ft=pyrex
 from torchswe import nplike as _nplike
 
-def get_dis_flux_kernel1(xmf0, xmf2,xmq1, xmp2):
+#def get_dis_flux_kernel1(xmf0, xmf2,xmq1, xmp2):
+#    xmf0 = xmq1
+#    xmf2 = xmq1 * xmp2
+#
+#def get_dis_flux_kernel2( xmf1, grav2,  xmq1, xmp0, xmp1):
+#    xmf1 = xmq1 * xmp1 + grav2 * xmp0 * xmp0
+#
+#
+#def get_dis_flux_kernel3(xpf0, xpf2, xpq1, xpp2):
+#    xpf0 = xpq1
+#    xpf2 = xpq1 * xpp2
+#
+#def get_dis_flux_kernel4(xpf1, grav2, xpq1, xpp0, xpp1):
+#    xpf1 = xpq1 * xpp1 + grav2 * xpp0 * xpp0
+#
+#
+#def get_dis_flux_kernel5(ypf0,ypf1,ypq2, ypp1) :
+#    ypf0 = ypq2
+#    ypf1 = ypq2 * ypp1
+#
+#def get_dis_flux_kernel6(ypf2,grav2, ypq2, ypp0, ypp2) :
+#    ypf2 = ypq2 * ypp2 + grav2 * ypp0 * ypp0
+#
+#
+#def get_dis_flux_kernel7(ymf0, ymf1, ymq2, ymp1):
+#    ymf0 = ymq2
+#    ymf1 = ymq2 * ymp1
+#
+#def get_dis_flux_kernel8(ymf2, grav2, ymq2, ymp0, ymp2):
+#    ymf2 = ymq2 * ymp2 + grav2 * ymp0 * ymp0
+#
+#
+#vecfunc1 = _nplike.vectorize(get_dis_flux_kernel1, otypes=(float,float), cache=True)
+#vecfunc2 = _nplike.vectorize(get_dis_flux_kernel2, otypes=(float,),cache=True)
+#vecfunc3 = _nplike.vectorize(get_dis_flux_kernel3,otypes=(float,float), cache=True)
+#vecfunc4 = _nplike.vectorize(get_dis_flux_kernel4, otypes=(float,),cache=True)
+#vecfunc5 = _nplike.vectorize(get_dis_flux_kernel5, otypes=(float,float), cache=True)
+#vecfunc6 = _nplike.vectorize(get_dis_flux_kernel6, otypes=(float,),cache=True)
+#vecfunc7 = _nplike.vectorize(get_dis_flux_kernel7,otypes=(float,float), cache=True)
+#vecfunc8 = _nplike.vectorize(get_dis_flux_kernel8, otypes=(float,),cache=True)
+
+#bigger kernels:
+def get_dis_flux_kernel9(xmf0, xmf1, xmf2, grav2, xmq1,xmp0,xmp1, xmp2):
     xmf0 = xmq1
     xmf2 = xmq1 * xmp2
-
-def get_dis_flux_kernel2( xmf1, grav2,  xmq1, xmp0, xmp1):
     xmf1 = xmq1 * xmp1 + grav2 * xmp0 * xmp0
 
 
-def get_dis_flux_kernel3(xpf0, xpf2, xpq1, xpp2):
+def get_dis_flux_kernel10(xpf0,xpf1, xpf2,grav2, xpq1, xpp0, xpp1, xpp2):
     xpf0 = xpq1
     xpf2 = xpq1 * xpp2
-
-def get_dis_flux_kernel4(xpf1, grav2, xpq1, xpp0, xpp1):
     xpf1 = xpq1 * xpp1 + grav2 * xpp0 * xpp0
 
 
-def get_dis_flux_kernel5(ypf0,ypf1,ypq2, ypp1) :
+def get_dis_flux_kernel11(ypf0,ypf1,ypf2,grav2,ypq2,ypp0, ypp1,ypp2) :
     ypf0 = ypq2
     ypf1 = ypq2 * ypp1
-
-def get_dis_flux_kernel6(ypf2,grav2, ypq2, ypp0, ypp2) :
     ypf2 = ypq2 * ypp2 + grav2 * ypp0 * ypp0
 
 
-def get_dis_flux_kernel7(ymf0, ymf1, ymq2, ymp1):
+def get_dis_flux_kernel12(ymf0, ymf1,ymf2,grav2, ymq2,ymp0, ymp1, ymp2):
     ymf0 = ymq2
     ymf1 = ymq2 * ymp1
-
-def get_dis_flux_kernel8(ymf2, grav2, ymq2, ymp0, ymp2):
     ymf2 = ymq2 * ymp2 + grav2 * ymp0 * ymp0
 
+vecfunc9 = _nplike.vectorize(get_dis_flux_kernel9, otypes=(float,float,float), cache=True)
+vecfunc10 = _nplike.vectorize(get_dis_flux_kernel10, otypes=(float,float,float),cache=True)
+vecfunc11 = _nplike.vectorize(get_dis_flux_kernel11,otypes=(float,float,float), cache=True)
+vecfunc12 = _nplike.vectorize(get_dis_flux_kernel12, otypes=(float,float,float),cache=True)
 
-vecfunc1 = _nplike.vectorize(get_dis_flux_kernel1, otypes=(float,float), cache=True)
-vecfunc2 = _nplike.vectorize(get_dis_flux_kernel2, otypes=(float,),cache=True)
-vecfunc3 = _nplike.vectorize(get_dis_flux_kernel3,otypes=(float,float), cache=True)
-vecfunc4 = _nplike.vectorize(get_dis_flux_kernel4, otypes=(float,),cache=True)
-vecfunc5 = _nplike.vectorize(get_dis_flux_kernel1, otypes=(float,float), cache=True)
-vecfunc6 = _nplike.vectorize(get_dis_flux_kernel2, otypes=(float,),cache=True)
-vecfunc7 = _nplike.vectorize(get_dis_flux_kernel3,otypes=(float,float), cache=True)
-vecfunc8 = _nplike.vectorize(get_dis_flux_kernel4, otypes=(float,),cache=True)
 
 
 def get_discontinuous_flux(states, gravity):
@@ -68,18 +98,23 @@ def get_discontinuous_flux(states, gravity):
     #a = _nplike.empty(xm.f[0].shape)
     #a.fill(gravity/2.0)
     grav2=gravity/2.0
+    
+    vecfunc9(xm.f[0], xm.f[1],xm.f[2],grav2, xm.q[1], xm.p[0], xm.p[1],xm.p[2])
+    vecfunc10(xp.f[0],xp.f[1], xp.f[2],grav2, xp.q[1], xp.p[0], xp.p[1],xp.p[2])
+    vecfunc11(yp.f[0], yp.f[1],yp.f[2], grav2, yp.q[2],yp.p[0],yp.p[1],yp.p[2])
+    vecfunc12(ym.f[0], ym.f[1],ym.f[2], grav2, ym.q[2], ym.p[0],ym.p[1],ym.p[2])
 
-    vecfunc1(xm.f[0], xm.f[2],xm.q[1], xm.p[2])
-    vecfunc2(xm.f[1], grav2, xm.q[1],xm.p[0], xm.p[1])
-    vecfunc3(xp.f[0], xp.f[2], xp.q[1], xp.p[2])
-    vecfunc4(xp.f[1],grav2, xp.q[1], xp.p[0], xp.p[1])
+    #vecfunc1(xm.f[0], xm.f[2],xm.q[1], xm.p[2])
+    #vecfunc2(xm.f[1], grav2, xm.q[1],xm.p[0], xm.p[1])
+    #vecfunc3(xp.f[0], xp.f[2], xp.q[1], xp.p[2])
+    #vecfunc4(xp.f[1],grav2, xp.q[1], xp.p[0], xp.p[1])
 
-    #a2 = _nplike.empty(yp.f[0].shape)
-    #a2.fill(gravity/2.0)
-    vecfunc5(yp.f[0], yp.f[1], yp.q[2],yp.p[1])
-    vecfunc6(yp.f[2], grav2, yp.q[2],yp.p[0], yp.p[2])
-    vecfunc7(ym.f[0], ym.f[1], ym.q[2], ym.p[1])
-    vecfunc8(ym.f[2], grav2,ym.q[2], ym.p[0], ym.p[2])
+    ##a2 = _nplike.empty(yp.f[0].shape)
+    ##a2.fill(gravity/2.0)
+    #vecfunc5(yp.f[0], yp.f[1], yp.q[2],yp.p[1])
+    #vecfunc6(yp.f[2], grav2, yp.q[2],yp.p[0], yp.p[2])
+    #vecfunc7(ym.f[0], ym.f[1], ym.q[2], ym.p[1])
+    #vecfunc8(ym.f[2], grav2,ym.q[2], ym.p[0], ym.p[2])
 
     return states
 
