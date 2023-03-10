@@ -6,7 +6,7 @@
 from torchswe import nplike as _nplike
 
 
-def _minmod_slope_kernel(slp, denominator, s1, s2, s3, theta):
+def _minmod_slope_kernel(slp, s1, s2, s3, theta):
     denominator = s3 - s2
     if denominator == 0.0:
         slp = 0.0
@@ -24,8 +24,8 @@ def _minmod_slope_kernel(slp, denominator, s1, s2, s3, theta):
     slp *= denominator
     slp /= 2.0
 
-minmod_slope_vectorize = _nplike.vectorize(_minmod_slope_kernel, otypes = [float,float,],cache=True)
-minmod_slope_vectorize2 = _nplike.vectorize(_minmod_slope_kernel, otypes = [float,float,],cache=True)
+minmod_slope_vectorize = _nplike.vectorize(_minmod_slope_kernel, otypes = [float],cache=True)
+minmod_slope_vectorize2 = _nplike.vectorize(_minmod_slope_kernel, otypes = [float],cache=True)
 
 def _fix_face_depth_internal(hl, hc, hr, tol, nhl, nhr):
     """For internal use."""
@@ -117,11 +117,11 @@ def reconstruct(states, runtime, config):
     #_minmod_slope_kernel(Q[:, ybg:yed, xbg-2:xed], Q[:, ybg:yed, xbg-1:xed+1], Q[:, ybg:yed, xbg:xed+2], theta, slpx)
     #_minmod_slope_kernel(Q[:, ybg-2:yed, xbg:xed], Q[:, ybg-1:yed+1, xbg:xed], Q[:, ybg:yed+2, xbg:xed], theta, slpy)
 
-    tmp_array = _nplike.ones(slpx.shape)
-    minmod_slope_vectorize(slpx, tmp_array, Q[:, ybg:yed, xbg-2:xed], Q[:, ybg:yed, xbg-1:xed+1], Q[:, ybg:yed, xbg:xed+2], theta)
+    #tmp_array = _nplike.ones(slpx.shape)
+    minmod_slope_vectorize(slpx, Q[:, ybg:yed, xbg-2:xed], Q[:, ybg:yed, xbg-1:xed+1], Q[:, ybg:yed, xbg:xed+2], theta)
 
-    tmp_array = _nplike.ones(slpy.shape)
-    minmod_slope_vectorize2(slpy, tmp_array, Q[:, ybg-2:yed, xbg:xed], Q[:, ybg-1:yed+1, xbg:xed], Q[:, ybg:yed+2, xbg:xed], theta)
+    #tmp_array = _nplike.ones(slpy.shape)
+    minmod_slope_vectorize2(slpy, Q[:, ybg-2:yed, xbg:xed], Q[:, ybg-1:yed+1, xbg:xed], Q[:, ybg:yed+2, xbg:xed], theta)
 
     # extrapolate discontinuous w, hu, and hv
     _nplike.add(Q[:, ybg:yed, xbg-1:xed], slpx[:, :, :nx+1], out=xmQ)
